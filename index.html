@@ -4,117 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de Cajas - CS:GO</title>
-  <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
   <style>
-    /* Fondo y fuente personalizada */
     body {
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      font-family: 'Orbitron', sans-serif;
-      background-color: #0d0d0d;
-      /* Fondo temático: utiliza una imagen de decoraciones (cuchillos, armas, etc.) de Google Fotos */
-      background-image: url('https://lh3.googleusercontent.com/p/AF1QipNPs7JsruScTLPsJ0tdsDq5B3qgPJE5XWNeXPoM=s1600-w400');
+      text-align: center; 
+      font-family: Arial, sans-serif; 
+      background-color: #121212; 
+      color: white; 
+      background-image: url('https://i.imgur.com/U7wVwFq.png'); 
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
-      color: #fff;
-      overflow-x: hidden;
+      opacity: 0.9;
     }
-    /* Capa overlay para oscurecer un poco el fondo */
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(13, 13, 13, 0.85);
-      z-index: -1;
-    }
-    /* Encabezado */
-    header {
-      padding: 20px 0;
-      background: rgba(0, 0, 0, 0.7);
-      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.5em;
-      letter-spacing: 2px;
-    }
-    /* Contenedor de la caja */
-    .case-container {
-      margin: 30px auto;
-      position: relative;
-      transition: transform 0.3s;
-    }
-    .case-container:hover {
-      transform: scale(1.05);
-    }
-    .case-image {
-      width: 250px;
-      cursor: pointer;
-    }
-    /* Caja animada (fondo de la ruleta) */
-    .case-box {
-      width: 350px; 
-      height: 220px; 
+    .case-container { margin: 20px auto; position: relative; }
+    .case-image { width: 250px; cursor: pointer; transition: transform 0.3s; }
+    .case-image:hover { transform: scale(1.1); }
+    .case-box { 
+      width: 320px; 
+      height: 200px; 
       margin: 20px auto; 
-      background: url('https://lh3.googleusercontent.com/p/AF1QipO-Fxpm7gJ0H9DRj1N8A7o9UlfZWdIHLURo7bqM=s1600-w400') no-repeat center center;
-      background-size: contain;
+      background: url('https://i.imgur.com/7Fp5cHq.png') no-repeat center center;
+      background-size: cover;
       padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-      position: relative;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
-    /* Ruleta de skins */
     .roulette {
-      display: flex;
-      overflow: hidden;
-      width: 300px;
-      height: 120px;
-      margin: 0 auto;
-      border: 3px solid #ffcc00;
-      background-color: rgba(0, 0, 0, 0.8);
+      display: flex; 
+      flex-wrap: wrap;
+      justify-content: center;
+      overflow: hidden; 
+      width: 320px; 
+      height: 200px; 
+      margin: auto; 
+      border: 3px solid white; 
+      background-color: #000; 
       padding: 10px;
-      border-radius: 10px;
+      border-radius: 5px;
     }
-    .roulette img {
-      width: 100px;
-      height: 100px;
-      margin: 0 5px;
-      border-radius: 10px;
-      transition: transform 0.2s;
+    .roulette img { 
+      width: 80px; 
+      height: 80px; 
+      margin: 5px; 
+      border-radius: 5px; 
     }
-    .roulette img:hover {
-      transform: scale(1.1);
-    }
-    /* Botón de apertura */
-    .open-btn {
-      padding: 15px 30px;
-      font-size: 20px;
-      margin-top: 20px;
-      cursor: pointer;
-      background: linear-gradient(45deg, #ffcc00, #ff9900);
-      color: #000;
-      border: none;
-      border-radius: 10px;
+    .open-btn { 
+      padding: 12px 25px; 
+      font-size: 18px; 
+      margin-top: 20px; 
+      cursor: pointer; 
+      background-color: #ffcc00; 
+      color: #000; 
+      border: none; 
+      border-radius: 5px; 
       font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: background 0.3s, transform 0.2s;
+      transition: background 0.3s;
     }
-    .open-btn:hover {
-      background: linear-gradient(45deg, #ff9900, #ffcc00);
-      transform: translateY(-2px);
-    }
-    /* Resultado final */
+    .open-btn:hover { background-color: #ff9900; }
     .result {
-      font-size: 24px;
-      margin-top: 30px;
-      padding: 15px;
-      border-radius: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: inline-block;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      font-size: 22px; 
+      margin-top: 20px; 
+      padding: 10px; 
+      border-radius: 5px; 
+      text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
     }
     /* Colores según rareza */
     .common { color: #b0b0b0; }
@@ -122,83 +74,63 @@
     .rare { color: #a020f0; }
     .mythic { color: #ff1493; }
     .legendary { color: #ffd700; }
-    /* Elementos decorativos al estilo SkinClub */
-    .decorations {
-      position: absolute;
-      top: 10%;
-      left: 5%;
-      width: 90%;
-      height: 80%;
-      pointer-events: none;
-      opacity: 0.15;
-    }
-    .decorations img {
-      position: absolute;
-      width: 150px;
-    }
-    .knife1 { top: 20%; left: 10%; transform: rotate(-15deg); }
-    .knife2 { bottom: 20%; right: 15%; transform: rotate(20deg); }
-    .gun1 { top: 50%; right: 5%; transform: rotate(-30deg); }
-    .gun2 { bottom: 10%; left: 5%; transform: rotate(10deg); }
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <header>
-    <h1>Simulador de Cajas - Caso de Invierno eSports 2013</h1>
-  </header>
+  <h1>Simulador de Cajas - Caso de Invierno eSports 2013</h1>
   <div class="case-container">
-    <img src="https://lh3.googleusercontent.com/p/AF1QipNPs7JsruScTLPsJ0tdsDq5B3qgPJE5XWNeXPoM=s1600-w400" alt="Caso de Invierno" class="case-image" onclick="openCase()">
+    <img src="https://i.imgur.com/7Fp5cHq.png" alt="Caso de Invierno" class="case-image" onclick="openCase()">
   </div>
   <div class="case-box">
     <div class="roulette" id="roulette">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipOVuF46QHt1aHdwVks6Zy2wKfPUxpp9POw1pRlK=s1600-w400">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipMURcA0OKo3m7koZs8tlT6cK1zbXXqCmQQK6cI0=s1600-w400">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipP3DEpY7cd2qZZZlQ6R-KL2BVY3r3X_6tKt8zEk=s1600-w400">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipNrz4w6LQYJwPMW0K4Z8HcN3C7Xksr41Z83X-5D=s1600-w400">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipMInlmSItBvIqK5TOSW6lOPzGn2LyJc0Lx4NwM9=s1600-w400">
+      <!-- Se muestran todas las skins de la caja -->
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_cu_xray_m4_light_large.e929bb3998df4902c2bd6f6fbb775cec071558ba.png" alt="M4A4 X-Ray">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_famas_cu_broken_path_famas_light_large.5d45539735d838ffefd26467a8c767b71807c785.png" alt="FAMAS Afterimage">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_awp_hy_hive_light_large.2189958e2afa2c69cfcdd807124c279a0e645625.png" alt="AWP Electric Hive">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_hy_ak47lam_blue_light_large.9f8ec5103efa5b7a0b3919a13b4de78e1bd612a0.png" alt="AK-47 Blue Laminate">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_p90_hy_modspots_light_large.a702b8feaf0e2568e60efb2ab722819b0521ea4b.png" alt="P90 Blind Spot">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_galilar_an_titanium30v_light_large.4264e8ec1cedb3bce31a89c934c630bd56d480c1.png" alt="Galil AR">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_p250_am_ddpatdense_silver_light_large.36220b384099ed61c2b9ba64af899b892e4a4c58.png" alt="P250 Steel Disruption">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_nova_cu_ghost_camo_light_large.d63e06a38ef396a945defd7c1ad9da9ba79fe60d.png" alt="NOVA Ghost Camo">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_fiveseven_hy_flowers_light_large.4f94edf6ac032c15fedafa6ba1f2425a4ca8bded.png" alt="Five-SeveN Nightshade">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_bizon_hy_water_crest_light_large.c4d0aad9cb87870f84f3709ff3b8ecc9fe489d89.png" alt="PP-Bizon Water Sigil">
+      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_g3sg1_sp_zebracam_blue_light_large.42199f9c4c0bd1ff9f569d6e7348c5cedf4630f5.png" alt="G3SG1 Azure Zebra">
     </div>
   </div>
   <button class="open-btn" onclick="openCase()">Abrir Caja</button>
   <div id="result" class="result"></div>
-  <!-- Elementos decorativos inspirados en SkinClub -->
-  <div class="decorations">
-    <img src="https://lh3.googleusercontent.com/p/AF1QipM87xP1zsl7IawI5H4IFHmo5n9v2oW_6xHDYJBS=s1600-w400" alt="Knife" class="knife1">
-    <img src="https://lh3.googleusercontent.com/p/AF1QipMXsPqwKcHDZ2T0RwlxPIRknFyDCTxuQ4gHdRSL=s1600-w400" alt="Knife" class="knife2">
-    <img src="https://lh3.googleusercontent.com/p/AF1QipOD32K6-uLZJeu8kk4jIS1XG2E7h8Ue7RRSBmzY=s1600-w400" alt="Gun" class="gun1">
-    <img src="https://lh3.googleusercontent.com/p/AF1QipNwIqH7dUzFzJ--6L0oDzn6LLyWnM0sCvc77k2f=s1600-w400" alt="Gun" class="gun2">
-  </div>
   <script>
-    // Definición de skins con imagen, nombre y rareza
+    // Definición de skins con su rareza y probabilidad (chance)
     const skins = [
-      { name: "M4A4 | X-Ray", image: "https://lh3.googleusercontent.com/p/AF1QipOVuF46QHt1aHdwVks6Zy2wKfPUxpp9POw1pRlK=s1600-w400", rarity: "legendary" },
-      { name: "FAMAS | Afterimage", image: "https://lh3.googleusercontent.com/p/AF1QipMURcA0OKo3m7koZs8tlT6cK1zbXXqCmQQK6cI0=s1600-w400", rarity: "mythic" },
-      { name: "AWP | Electric Hive", image: "https://lh3.googleusercontent.com/p/AF1QipP3DEpY7cd2qZZZlQ6R-KL2BVY3r3X_6tKt8zEk=s1600-w400", rarity: "mythic" },
-      { name: "AK-47 | Blue Laminate", image: "https://lh3.googleusercontent.com/p/AF1QipNrz4w6LQYJwPMW0K4Z8HcN3C7Xksr41Z83X-5D=s1600-w400", rarity: "rare" },
-      { name: "P90 | Blind Spot", image: "https://lh3.googleusercontent.com/p/AF1QipMInlmSItBvIqK5TOSW6lOPzGn2LyJc0Lx4NwM9=s1600-w400", rarity: "rare" }
+      { name: "M4A4 | X-Ray", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_cu_xray_m4_light_large.e929bb3998df4902c2bd6f6fbb775cec071558ba.png", rarity: "legendary", chance: 1 },
+      { name: "FAMAS | Afterimage", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_famas_cu_broken_path_famas_light_large.5d45539735d838ffefd26467a8c767b71807c785.png", rarity: "mythic", chance: 4 },
+      { name: "AWP | Electric Hive", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_awp_hy_hive_light_large.2189958e2afa2c69cfcdd807124c279a0e645625.png", rarity: "mythic", chance: 4 },
+      { name: "AK-47 | Blue Laminate", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_hy_ak47lam_blue_light_large.9f8ec5103efa5b7a0b3919a13b4de78e1bd612a0.png", rarity: "rare", chance: 10 },
+      { name: "P90 | Blind Spot", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_p90_hy_modspots_light_large.a702b8feaf0e2568e60efb2ab722819b0521ea4b.png", rarity: "rare", chance: 10 },
+      { name: "Galil AR", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_galilar_an_titanium30v_light_large.4264e8ec1cedb3bce31a89c934c630bd56d480c1.png", rarity: "uncommon", chance: 20 },
+      { name: "P250 | Steel Disruption", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_p250_am_ddpatdense_silver_light_large.36220b384099ed61c2b9ba64af899b892e4a4c58.png", rarity: "uncommon", chance: 20 },
+      { name: "NOVA | Ghost Camo", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_nova_cu_ghost_camo_light_large.d63e06a38ef396a945defd7c1ad9da9ba79fe60d.png", rarity: "uncommon", chance: 20 },
+      { name: "Five-SeveN | Nightshade", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_fiveseven_hy_flowers_light_large.4f94edf6ac032c15fedafa6ba1f2425a4ca8bded.png", rarity: "uncommon", chance: 20 },
+      { name: "PP-Bizon | Water Sigil", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_bizon_hy_water_crest_light_large.c4d0aad9cb87870f84f3709ff3b8ecc9fe489d89.png", rarity: "common", chance: 25 },
+      { name: "G3SG1 | Azure Zebra", image: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_g3sg1_sp_zebracam_blue_light_large.42199f9c4c0bd1ff9f569d6e7348c5cedf4630f5.png", rarity: "common", chance: 25 }
     ];
     
-    // Función para simular la apertura de la caja
+    // Función para seleccionar una skin de forma aleatoria según las probabilidades
+    function getRandomSkin() {
+      let total = skins.reduce((sum, skin) => sum + skin.chance, 0);
+      let random = Math.random() * total;
+      let cumulative = 0;
+      for (let skin of skins) {
+        cumulative += skin.chance;
+        if (random < cumulative) return skin;
+      }
+    }
+    
     function openCase() {
-      let roulette = document.getElementById("roulette");
-      let images = roulette.getElementsByTagName("img");
       let resultDiv = document.getElementById("result");
-      
-      let counter = 0;
-      let interval = setInterval(() => {
-        for (let i = 0; i < images.length; i++) {
-          let randomSkin = skins[Math.floor(Math.random() * skins.length)];
-          images[i].src = randomSkin.image;
-        }
-        counter++;
-        if (counter > 20) {
-          clearInterval(interval);
-          let finalSkin = skins[Math.floor(Math.random() * skins.length)];
-          resultDiv.innerHTML = `Te ha tocado: <span class="${finalSkin.rarity}">${finalSkin.name}</span>`;
-        }
-      }, 100);
+      let finalSkin = getRandomSkin();
+      resultDiv.innerHTML = `Te ha tocado: <span class="${finalSkin.rarity}">${finalSkin.name}</span>`;
     }
   </script>
 </body>
 </html>
-
